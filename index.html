@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DTB B2 Kelime Çalışması</title>
+<meta name="description" content="Deutsch-Test für den Beruf B2 sınavı için Almanca-Türkçe kelime kartları ve quiz">
+<meta name="theme-color" content="#1b2a2a">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DTB Kelime">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #f3ede0;
+    --ink-dim: #cbc0a8;
+    --bg: #1b2a2a;
+    --card: #f3ede0;
+    --card-text: #1b2a2a;
+    --accent: #e0a33d;
+    --accent-2: #7fae94;
+    --bad: #c1614f;
+    --good: #6f9c78;
+    --radius: 3px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body {
+    height: 100%; margin: 0;
+    background: var(--bg); color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  body {
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(224,163,61,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(127,174,148,0.10), transparent 45%);
+    min-height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 28px 16px 60px;
+  }
+  .wrap { width: 100%; max-width: 640px; }
+  header { margin-bottom: 22px; }
+  .eyebrow { font-size: 12.5px; letter-spacing: 0.03em; color: var(--accent-2); font-weight: 600; }
+  h1 {
+    font-family: 'Source Serif 4', serif; font-weight: 600;
+    font-size: clamp(24px, 6vw, 32px); margin: 4px 0 6px; line-height: 1.15;
+  }
+  .sub { color: var(--ink-dim); font-size: 14.5px; line-height: 1.5; max-width: 54ch; }
+
+  .controls-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .pill {
+    border: 1px solid rgba(243,237,224,0.28); background: transparent; color: var(--ink-dim);
+    font-family: inherit; font-size: 12.5px; padding: 6px 12px; border-radius: 999px;
+    cursor: pointer; transition: border-color .15s, color .15s, background .15s; white-space: nowrap;
+  }
+  .pill.active { color: var(--bg); background: var(--accent-2); border-color: var(--accent-2); }
+
+  .stat-row { display: flex; gap: 18px; font-size: 13px; color: var(--ink-dim); margin-bottom: 18px; flex-wrap: wrap; }
+  .stat-row b { color: var(--ink); font-weight: 600; }
+
+  .quiz-card {
+    background: var(--card); color: var(--card-text); border-radius: var(--radius);
+    padding: 34px 28px; box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    max-width: 480px; margin: 0 auto 18px;
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 34px, rgba(27,42,42,0.06) 34px, rgba(27,42,42,0.06) 35px);
+    position: relative;
+  }
+  .quiz-card::before {
+    content: ""; position: absolute; top: 16px; left: 16px; width: 10px; height: 10px;
+    border-radius: 50%; background: rgba(27,42,42,0.12); box-shadow: 20px 0 0 rgba(27,42,42,0.12);
+  }
+  .quiz-tag { font-size: 11px; letter-spacing: 0.04em; color: #6b7d6f; margin-bottom: 14px; }
+  .quiz-word {
+    font-family: 'Source Serif 4', serif; font-size: clamp(24px, 6.5vw, 32px);
+    font-weight: 600; line-height: 1.25; margin-bottom: 22px;
+  }
+  .answer-row { display: flex; gap: 10px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    font-family: inherit; text-align: left; font-size: 15.5px;
+    padding: 13px 16px; border-radius: var(--radius);
+    border: 1px solid rgba(27,42,42,0.18); background: rgba(27,42,42,0.03);
+    color: var(--card-text); cursor: pointer;
+  }
+  .opt:hover { background: rgba(27,42,42,0.07); }
+  .opt.correct { background: rgba(111,156,120,0.25); border-color: var(--good); }
+  .opt.wrong { background: rgba(193,97,79,0.22); border-color: var(--bad); }
+  .opt[disabled] { cursor: default; }
+  input.answer-input {
+    flex: 1; font-family: inherit; font-size: 16px; padding: 13px 14px;
+    border-radius: var(--radius); border: 1px solid rgba(27,42,42,0.25);
+    background: rgba(27,42,42,0.03); color: var(--card-text);
+  }
+  input.answer-input:focus { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+  .feedback {
+    margin-top: 16px; padding: 14px 16px; border-radius: var(--radius);
+    font-size: 14.5px; line-height: 1.5; display: none;
+  }
+  .feedback.correct { display: block; background: rgba(111,156,120,0.18); border: 1px solid var(--good); color: #2f4a35; }
+  .feedback.wrong { display: block; background: rgba(193,97,79,0.15); border: 1px solid var(--bad); color: #5a231a; }
+  .feedback .correct-answer { font-weight: 700; }
+
+  .btn {
+    font-family: inherit; font-size: 14px; font-weight: 600; border: none;
+    border-radius: var(--radius); padding: 12px 20px; cursor: pointer;
+    transition: transform .1s, opacity .15s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #241a05; }
+  .btn-ghost { background: transparent; color: var(--ink-dim); border: 1px solid rgba(243,237,224,0.2); }
+  .btn-good { background: rgba(111,156,120,0.18); color: #aed4b5; border: 1px solid rgba(111,156,120,0.4); }
+  .btn-bad { background: rgba(193,97,79,0.18); color: #e2a99c; border: 1px solid rgba(193,97,79,0.4); }
+
+  .nav-row { display: flex; justify-content: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+
+  .quiz-summary {
+    max-width: 480px; margin: 0 auto; text-align: center;
+    background: var(--card); color: var(--card-text); border-radius: var(--radius);
+    padding: 40px 26px; box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+  }
+  .quiz-summary .score { font-family: 'Source Serif 4', serif; font-size: 44px; font-weight: 600; margin: 6px 0 4px; }
+
+  footer { margin-top: 30px; text-align: center; color: rgba(243,237,224,0.35); font-size: 12px; }
+
+  kbd {
+    font-family: inherit; font-size: 11px; border: 1px solid rgba(243,237,224,0.3);
+    border-radius: 3px; padding: 1px 5px; color: var(--ink-dim);
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex; gap: 6px; margin-bottom: 16px;
+    border-bottom: 1px solid rgba(243,237,224,0.16);
+  }
+  .tab {
+    background: none; border: none; color: var(--ink-dim); font-family: inherit;
+    font-size: 14.5px; font-weight: 500; padding: 9px 4px; margin-right: 18px;
+    cursor: pointer; position: relative;
+  }
+  .tab.active { color: var(--ink); }
+  .tab.active::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 2px; background: var(--accent);
+  }
+
+  /* Flashcard */
+  .stage { perspective: 1400px; margin: 0 auto 22px; max-width: 460px; }
+  .index-card {
+    position: relative; height: 260px; cursor: pointer;
+    transform-style: preserve-3d; transition: transform .45s cubic-bezier(.4,.2,.2,1);
+  }
+  .index-card.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    background: var(--card); color: var(--card-text); border-radius: var(--radius);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 32px 26px; box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 34px, rgba(27,42,42,0.06) 34px, rgba(27,42,42,0.06) 35px);
+  }
+  .face::before {
+    content: ""; position: absolute; top: 16px; left: 16px; width: 10px; height: 10px;
+    border-radius: 50%; background: rgba(27,42,42,0.12); box-shadow: 20px 0 0 rgba(27,42,42,0.12);
+  }
+  .face .tag { font-size: 11px; letter-spacing: 0.04em; color: #6b7d6f; margin-bottom: 14px; }
+  .face .word {
+    font-family: 'Source Serif 4', serif; font-size: clamp(22px, 6vw, 30px);
+    font-weight: 600; line-height: 1.25;
+  }
+  .face .hint { margin-top: 16px; font-size: 12px; color: #8a7a55; }
+  .example {
+    font-size: 13px; font-style: italic; color: #4c5a4c; line-height: 1.4;
+  }
+  .example-tr {
+    font-size: 12px; font-style: normal; color: #6b7d6f; margin-top: 3px;
+  }
+  .face .example { margin-top: 12px; max-width: 32ch; }
+  .back { transform: rotateY(180deg); }
+  .card-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+
+  @media (prefers-reduced-motion: reduce) { .index-card { transition: none; } }
+
+  .center { display: flex; justify-content: center; }
+  .active-mark { box-shadow: 0 0 0 2px var(--accent) inset; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">DEUTSCH-TEST FÜR DEN BERUF · B2</div>
+    <h1>Kelime Çalışması</h1>
+    <div class="sub">Yön seçeneğiyle Almanca → Türkçe veya Türkçe → Almanca çalışabilirsin. Kartlar modunda çevirerek tekrar et, Quiz modunda kendini sına.</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-mode="cards">Kartlar</button>
+    <button class="tab" data-mode="quiz">Quiz</button>
+  </div>
+
+  <div id="dirBar" class="controls-row"></div>
+
+  <div id="catBar" class="controls-row"></div>
+  <div id="reviewBar" class="controls-row"></div>
+  <div class="controls-row">
+    <button class="pill" id="btnResetSession">↺ Baştan Başla</button>
+  </div>
+
+  <div id="cardsView">
+    <div class="stat-row">
+      <div><b id="cardIndex">1</b> / <span id="cardTotal"></span></div>
+      <div>Biliyorum: <b id="knownCount">0</b></div>
+      <div>Tekrar et: <b id="reviewCount">0</b></div>
+    </div>
+
+    <div class="stage">
+      <div class="index-card" id="indexCard">
+        <div class="face front">
+          <div class="tag" id="frontTag">ALMANCA</div>
+          <div class="word" id="frontWord">—</div>
+          <div class="example" id="frontExample"></div>
+          <div class="hint">Çevirmek için dokun</div>
+        </div>
+        <div class="face back">
+          <div class="tag" id="backTag">TÜRKÇE</div>
+          <div class="word" id="backWord">—</div>
+          <div class="example" id="backExample"></div>
+          <div class="hint">Tekrar dokun</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-nav">
+      <button class="btn btn-bad" id="btnDontKnow">Bilmiyorum</button>
+      <button class="btn btn-good" id="btnKnow">Biliyorum</button>
+    </div>
+    <div class="card-nav">
+      <button class="btn btn-ghost" id="btnPrev">← Önceki</button>
+      <button class="btn btn-ghost" id="btnShuffle">Karıştır</button>
+      <button class="btn btn-ghost" id="btnNext">Sonraki →</button>
+    </div>
+  </div>
+
+  <div id="quizView" style="display:none;">
+    <div class="stat-row">
+      <div>Soru <b id="qIndex">1</b> / <span id="qTotal"></span></div>
+      <div>Doğru: <b id="scoreCorrect">0</b></div>
+      <div>Yanlış: <b id="scoreWrong">0</b></div>
+    </div>
+
+    <div id="quizArea"></div>
+  </div>
+
+  <footer>Almanca–Türkçe kelime çalışma aracı · yön ve mod değiştirilebilir · verileriniz yalnızca bu cihazda saklanır</footer>
+</div>
+
+<script>
+const VOCAB = [
+  // İş yeri ve insanlar
+  {de:"die Firma", tr:"şirket", cat:"İş Yeri"},
+  {de:"das Unternehmen", tr:"işletme, şirket", cat:"İş Yeri"},
+  {de:"der Mitarbeiter / die Mitarbeiterin", tr:"çalışan", cat:"İş Yeri"},
+  {de:"der Chef / die Chefin", tr:"patron, amir", cat:"İş Yeri"},
+  {de:"der Kollege / die Kollegin", tr:"meslektaş, iş arkadaşı", cat:"İş Yeri"},
+  {de:"der Kunde / die Kundin", tr:"müşteri", cat:"İş Yeri"},
+  {de:"die Abteilung", tr:"departman, bölüm", cat:"İş Yeri"},
+  {de:"die Personalabteilung", tr:"insan kaynakları departmanı", cat:"İş Yeri"},
+  {de:"die Geschäftsleitung", tr:"şirket yönetimi", cat:"İş Yeri"},
+  {de:"das Team", tr:"ekip, takım", cat:"İş Yeri"},
+  {de:"der Arbeitgeber", tr:"işveren", cat:"İş Yeri"},
+  {de:"der Arbeitnehmer", tr:"çalışan, işçi", cat:"İş Yeri"},
+  {de:"der Beruf", tr:"meslek", cat:"İş Yeri"},
+  {de:"die Ausbildung", tr:"meslek eğitimi, staj", cat:"İş Yeri"},
+  {de:"der Arbeitsplatz", tr:"iş yeri, çalışma yeri", cat:"İş Yeri"},
+  {de:"das Büro", tr:"ofis", cat:"İş Yeri"},
+  {de:"die Kantine", tr:"yemekhane", cat:"İş Yeri"},
+  {de:"das Lager", tr:"depo", cat:"İş Yeri"},
+  {de:"der Betrieb", tr:"işletme", cat:"İş Yeri"},
+  {de:"das Personal", tr:"personel", cat:"İş Yeri"},
+
+  // Zaman ve randevu
+  {de:"der Termin", tr:"randevu", cat:"Zaman ve Randevu"},
+  {de:"die Woche", tr:"hafta", cat:"Zaman ve Randevu"},
+  {de:"der Monat", tr:"ay", cat:"Zaman ve Randevu"},
+  {de:"das Jahr", tr:"yıl", cat:"Zaman ve Randevu"},
+  {de:"die Stunde", tr:"saat (süre)", cat:"Zaman ve Randevu"},
+  {de:"die Minute", tr:"dakika", cat:"Zaman ve Randevu"},
+  {de:"das Wochenende", tr:"hafta sonu", cat:"Zaman ve Randevu"},
+  {de:"der Urlaub", tr:"izin, tatil", cat:"Zaman ve Randevu"},
+  {de:"die Überstunden", tr:"fazla mesai", cat:"Zaman ve Randevu"},
+  {de:"die Arbeitszeit", tr:"çalışma saati", cat:"Zaman ve Randevu"},
+  {de:"die Sitzung / die Besprechung", tr:"toplantı", cat:"Zaman ve Randevu"},
+  {de:"das Protokoll", tr:"toplantı tutanağı", cat:"Zaman ve Randevu"},
+  {de:"der Tagesordnungspunkt", tr:"gündem maddesi", cat:"Zaman ve Randevu"},
+  {de:"regelmäßig", tr:"düzenli olarak", cat:"Zaman ve Randevu"},
+  {de:"spätestens", tr:"en geç", cat:"Zaman ve Randevu"},
+  {de:"innerhalb", tr:"içinde (belirli süre)", cat:"Zaman ve Randevu"},
+  {de:"kurzfristig", tr:"kısa vadeli", cat:"Zaman ve Randevu"},
+  {de:"langfristig", tr:"uzun vadeli", cat:"Zaman ve Randevu"},
+
+  // Yazışma ve iletişim
+  {de:"die E-Mail", tr:"e-posta", cat:"Yazışma ve İletişim"},
+  {de:"die Telefonnummer", tr:"telefon numarası", cat:"Yazışma ve İletişim"},
+  {de:"die Nachricht", tr:"mesaj, haber", cat:"Yazışma ve İletişim"},
+  {de:"die Anfrage", tr:"talep, istek", cat:"Yazışma ve İletişim"},
+  {de:"das Angebot", tr:"teklif", cat:"Yazışma ve İletişim"},
+  {de:"die Bestellung", tr:"sipariş", cat:"Yazışma ve İletişim"},
+  {de:"die Lieferung", tr:"teslimat", cat:"Yazışma ve İletişim"},
+  {de:"die Rechnung", tr:"fatura", cat:"Yazışma ve İletişim"},
+  {de:"die Genehmigung", tr:"onay, izin", cat:"Yazışma ve İletişim"},
+  {de:"der Bescheid", tr:"bildirim, haber", cat:"Yazışma ve İletişim"},
+  {de:"die Information", tr:"bilgi", cat:"Yazışma ve İletişim"},
+  {de:"die Frage", tr:"soru", cat:"Yazışma ve İletişim"},
+  {de:"die Antwort", tr:"cevap", cat:"Yazışma ve İletişim"},
+  {de:"bitten (um)", tr:"rica etmek", cat:"Yazışma ve İletişim"},
+  {de:"informieren", tr:"bilgilendirmek", cat:"Yazışma ve İletişim"},
+  {de:"kontaktieren", tr:"iletişime geçmek", cat:"Yazışma ve İletişim"},
+  {de:"bestätigen", tr:"onaylamak", cat:"Yazışma ve İletişim"},
+  {de:"mitteilen", tr:"bildirmek", cat:"Yazışma ve İletişim"},
+
+  // Sorunlar ve şikayetler
+  {de:"das Problem", tr:"sorun", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Lösung", tr:"çözüm", cat:"Sorunlar ve Şikayetler"},
+  {de:"der Fehler", tr:"hata", cat:"Sorunlar ve Şikayetler"},
+  {de:"der Grund", tr:"sebep", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Beschwerde", tr:"şikayet", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Schwierigkeit", tr:"zorluk", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Unannehmlichkeiten", tr:"rahatsızlık, sıkıntı", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Kündigung", tr:"fesih, istifa", cat:"Sorunlar ve Şikayetler"},
+  {de:"die Reparatur", tr:"tamir", cat:"Sorunlar ve Şikayetler"},
+  {de:"vermeiden", tr:"önlemek, kaçınmak", cat:"Sorunlar ve Şikayetler"},
+  {de:"sich entschuldigen", tr:"özür dilemek", cat:"Sorunlar ve Şikayetler"},
+  {de:"sich beschweren", tr:"şikayet etmek", cat:"Sorunlar ve Şikayetler"},
+  {de:"erledigen", tr:"halletmek", cat:"Sorunlar ve Şikayetler"},
+
+  // Sıfat / zarf / bağlaç
+  {de:"wichtig", tr:"önemli", cat:"Genel Sıfatlar"},
+  {de:"dringend", tr:"acil", cat:"Genel Sıfatlar"},
+  {de:"möglich", tr:"mümkün", cat:"Genel Sıfatlar"},
+  {de:"richtig", tr:"doğru", cat:"Genel Sıfatlar"},
+  {de:"falsch", tr:"yanlış", cat:"Genel Sıfatlar"},
+  {de:"sofort", tr:"hemen", cat:"Genel Sıfatlar"},
+  {de:"außerdem", tr:"ayrıca", cat:"Genel Sıfatlar"},
+  {de:"natürlich", tr:"tabii ki, doğal olarak", cat:"Genel Sıfatlar"},
+  {de:"deshalb", tr:"bu yüzden", cat:"Genel Sıfatlar"},
+  {de:"damit", tr:"böylece, bununla", cat:"Genel Sıfatlar"},
+  {de:"gerne", tr:"memnuniyetle", cat:"Genel Sıfatlar"},
+  {de:"leider", tr:"maalesef", cat:"Genel Sıfatlar"},
+
+  // Fiiller
+  {de:"anbieten", ex:"Wir bieten unseren Kunden einen kostenlosen Reparaturservice an.", exTr:"Müşterilerimize ücretsiz bir tamir hizmeti sunuyoruz.", tr:"teklif etmek, sunmak", cat:"Genel Fiiller"},
+  {de:"bekommen", ex:"Haben Sie meine E-Mail von gestern schon bekommen?", exTr:"Dünkü e-postamı aldınız mı?", tr:"almak, edinmek", cat:"Genel Fiiller"},
+  {de:"erhalten", ex:"Sie erhalten die Rechnung per Post.", exTr:"Faturayı posta yoluyla alacaksınız.", tr:"almak, elde etmek", cat:"Genel Fiiller"},
+  {de:"liefern", ex:"Der Lieferant liefert die Ware jeden Montag.", exTr:"Tedarikçi malı her pazartesi teslim ediyor.", tr:"teslim etmek", cat:"Genel Fiiller"},
+  {de:"teilnehmen", ex:"Ich möchte gerne an der Schulung teilnehmen.", exTr:"Eğitime katılmak istiyorum.", tr:"katılmak", cat:"Genel Fiiller"},
+  {de:"übernehmen", ex:"Frau Klein übernimmt die Leitung der Abteilung.", exTr:"Bayan Klein departmanın yönetimini üstleniyor.", tr:"üstlenmek, devralmak", cat:"Genel Fiiller"},
+  {de:"berichten", ex:"Bitte berichten Sie mir über den Stand des Projekts.", exTr:"Lütfen bana projenin durumu hakkında bilgi verin.", tr:"rapor etmek, anlatmak", cat:"Genel Fiiller"},
+  {de:"nutzen", ex:"Sie können das Homeoffice zweimal pro Woche nutzen.", exTr:"Evden çalışmayı haftada iki kez kullanabilirsiniz.", tr:"kullanmak", cat:"Genel Fiiller"},
+  {de:"brauchen", ex:"Wir brauchen noch mehr Informationen zu dem Auftrag.", exTr:"Sipariş hakkında daha fazla bilgiye ihtiyacımız var.", tr:"ihtiyaç duymak", cat:"Genel Fiiller"},
+  {de:"sprechen", ex:"Kann ich kurz mit Ihnen sprechen?", exTr:"Sizinle kısaca konuşabilir miyim?", tr:"konuşmak", cat:"Genel Fiiller"},
+  {de:"bezahlen", ex:"Die Rechnung muss bis Ende des Monats bezahlt werden.", exTr:"Fatura ay sonuna kadar ödenmeli.", tr:"ödemek", cat:"Genel Fiiller"},
+  {de:"erreichen", ex:"Sie erreichen mich am besten telefonisch am Vormittag.", exTr:"Bana en iyi sabah saatlerinde telefonla ulaşabilirsiniz.", tr:"ulaşmak", cat:"Genel Fiiller"},
+
+  // Ofis / lojistik ekstra
+  {de:"die Ware", tr:"mal, ürün", cat:"İş Yeri"},
+  {de:"die Kosten", tr:"masraflar, giderler", cat:"İş Yeri"},
+  {de:"der Rabatt", tr:"indirim", cat:"İş Yeri"},
+  {de:"der Drucker", tr:"yazıcı", cat:"İş Yeri"},
+  {de:"das Gerät", tr:"cihaz", cat:"İş Yeri"},
+
+  // Sözleşme ve maaş
+  {de:"der Vertrag", tr:"sözleşme", cat:"Sözleşme ve Maaş"},
+  {de:"der Arbeitsvertrag", tr:"iş sözleşmesi", cat:"Sözleşme ve Maaş"},
+  {de:"das Gehalt", tr:"maaş", cat:"Sözleşme ve Maaş"},
+  {de:"der Lohn", tr:"ücret, maaş", cat:"Sözleşme ve Maaş"},
+  {de:"die Gehaltsabrechnung", tr:"maaş bordrosu", cat:"Sözleşme ve Maaş"},
+  {de:"die Kündigungsfrist", tr:"fesih ihbar süresi", cat:"Sözleşme ve Maaş"},
+  {de:"das Zeugnis", tr:"referans/çalışma belgesi", cat:"Sözleşme ve Maaş"},
+  {de:"die Elternzeit", tr:"ebeveyn izni", cat:"Sözleşme ve Maaş"},
+  {de:"die Vertretung", tr:"vekalet, yerine bakma", cat:"Sözleşme ve Maaş"},
+  {de:"die Probezeit", tr:"deneme süresi", cat:"Sözleşme ve Maaş"},
+
+  // İş başvurusu
+  {de:"die Bewerbung", tr:"iş başvurusu", cat:"İş Başvurusu"},
+  {de:"der Lebenslauf", tr:"özgeçmiş", cat:"İş Başvurusu"},
+  {de:"das Vorstellungsgespräch", tr:"iş görüşmesi, mülakat", cat:"İş Başvurusu"},
+  {de:"die Fortbildung", tr:"mesleki gelişim kursu", cat:"İş Başvurusu"},
+  {de:"die Weiterbildung", tr:"ileri eğitim, gelişim eğitimi", cat:"İş Başvurusu"},
+  {de:"das Praktikum", tr:"staj", cat:"İş Başvurusu"},
+  {de:"der/die Auszubildende", tr:"çırak, stajyer", cat:"İş Başvurusu"},
+  {de:"die Fachkraft", tr:"uzman personel, kalifiye eleman", cat:"İş Başvurusu"},
+  {de:"die Qualifikation", tr:"nitelik, yeterlilik", cat:"İş Başvurusu"},
+
+  // İş sağlığı ve güvenliği
+  {de:"die Sicherheit", tr:"güvenlik", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Arbeitsschutz", tr:"iş güvenliği", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Unfall", tr:"kaza", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Arbeitsunfall", tr:"iş kazası", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Notfall", tr:"acil durum", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Ersthelfer / die Ersthelferin", tr:"ilk yardımcı", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Erste Hilfe", tr:"ilk yardım", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Gefahr", tr:"tehlike", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Schutzkleidung", tr:"koruyucu giysi", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"der Schaden", tr:"hasar, zarar", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Versicherung", tr:"sigorta", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Anweisung", tr:"talimat", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Unterweisung", tr:"yönlendirme, eğitim (güvenlik)", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Maschine", tr:"makine", cat:"İş Sağlığı ve Güvenliği"},
+
+  // İzin ve hastalık
+  {de:"die Krankmeldung", tr:"hastalık bildirimi", cat:"İzin ve Hastalık"},
+  {de:"das Attest", tr:"doktor raporu", cat:"İzin ve Hastalık"},
+  {de:"der Krankenschein", tr:"hastalık belgesi", cat:"İzin ve Hastalık"},
+  {de:"die Krankenkasse", tr:"sağlık sigortası kurumu", cat:"İzin ve Hastalık"},
+  {de:"die Pause", tr:"mola", cat:"İzin ve Hastalık"},
+  {de:"der Feiertag", tr:"resmi tatil", cat:"İzin ve Hastalık"},
+  {de:"der Feierabend", tr:"iş çıkışı, mesai sonu", cat:"İzin ve Hastalık"},
+  {de:"der Dienstplan", tr:"vardiya/çalışma planı", cat:"İzin ve Hastalık"},
+  {de:"die Schicht", tr:"vardiya", cat:"İzin ve Hastalık"},
+  {de:"das Homeoffice", tr:"evden çalışma", cat:"İzin ve Hastalık"},
+
+  // Sipariş ve şikayet detayları
+  {de:"der Ersatz", tr:"yedek, karşılık, tazminat", cat:"Sipariş ve Şikayet"},
+  {de:"das Ersatzteil", tr:"yedek parça", cat:"Sipariş ve Şikayet"},
+  {de:"der Mangel / die Mängel", tr:"kusur, eksiklik", cat:"Sipariş ve Şikayet"},
+  {de:"die Reklamation", tr:"şikayet, iade talebi", cat:"Sipariş ve Şikayet"},
+  {de:"die Garantie", tr:"garanti", cat:"Sipariş ve Şikayet"},
+  {de:"die Stornierung", tr:"iptal", cat:"Sipariş ve Şikayet"},
+  {de:"die Rechnungsnummer", tr:"fatura numarası", cat:"Sipariş ve Şikayet"},
+  {de:"die Bestellnummer", tr:"sipariş numarası", cat:"Sipariş ve Şikayet"},
+  {de:"der Vorschlag", tr:"öneri", cat:"Sipariş ve Şikayet"},
+  {de:"die Rückmeldung", tr:"geri bildirim", cat:"Sipariş ve Şikayet"},
+
+  // Yazışma formu
+  {de:"der Betreff", tr:"konu (e-posta/mektup)", cat:"Yazışma ve İletişim"},
+  {de:"der Absender", tr:"gönderen", cat:"Yazışma ve İletişim"},
+  {de:"der Empfänger", tr:"alıcı", cat:"Yazışma ve İletişim"},
+  {de:"das Datum", tr:"tarih", cat:"Yazışma ve İletişim"},
+  {de:"die Unterschrift", tr:"imza", cat:"Yazışma ve İletişim"},
+  {de:"die Anlage", tr:"ek (belge)", cat:"Yazışma ve İletişim"},
+  {de:"die Frist", tr:"süre, son tarih", cat:"Yazışma ve İletişim"},
+  {de:"das Formular", tr:"form, formüler", cat:"Yazışma ve İletişim"},
+  {de:"die Anmeldung", tr:"kayıt, bildirim", cat:"Yazışma ve İletişim"},
+  {de:"der/die Vorgesetzte", tr:"amir, üst", cat:"İş Yeri"},
+
+  // Şirket yapısı
+  {de:"der Teamleiter / die Teamleiterin", tr:"takım lideri", cat:"Şirket Yapısı"},
+  {de:"der Abteilungsleiter / die Abteilungsleiterin", tr:"departman müdürü", cat:"Şirket Yapısı"},
+  {de:"die Geschäftsführung", tr:"genel müdürlük, yönetim", cat:"Şirket Yapısı"},
+  {de:"der Betriebsrat", tr:"işçi temsil kurulu", cat:"Şirket Yapısı"},
+  {de:"die Marketingabteilung", tr:"pazarlama departmanı", cat:"Şirket Yapısı"},
+  {de:"die Buchhaltung", tr:"muhasebe", cat:"Şirket Yapısı"},
+  {de:"der Standort", tr:"lokasyon, şube yeri", cat:"Şirket Yapısı"},
+  {de:"die Filiale", tr:"şube", cat:"Şirket Yapısı"},
+  {de:"der Zulieferer", tr:"tedarikçi", cat:"Şirket Yapısı"},
+  {de:"der Lieferant", tr:"tedarikçi, teslimatçı", cat:"Şirket Yapısı"},
+  {de:"die Spedition", tr:"nakliye şirketi", cat:"Şirket Yapısı"},
+  {de:"die Werkstatt", tr:"atölye", cat:"Şirket Yapısı"},
+  {de:"die Fertigungsanlage", tr:"üretim tesisi", cat:"Şirket Yapısı"},
+  {de:"die Produktion", tr:"üretim", cat:"Şirket Yapısı"},
+  {de:"die Qualitätssicherung", tr:"kalite güvencesi", cat:"Şirket Yapısı"},
+  {de:"die Qualität", tr:"kalite", cat:"Şirket Yapısı"},
+  {de:"der Empfang", tr:"resepsiyon", cat:"Şirket Yapısı"},
+  {de:"die GmbH", tr:"limited şirket (Alm. şirket türü)", cat:"Şirket Yapısı"},
+  {de:"die Agentur", tr:"ajans", cat:"Şirket Yapısı"},
+
+  // Ofis ve teknoloji
+  {de:"der Computer", tr:"bilgisayar", cat:"Ofis ve Teknoloji"},
+  {de:"der Laptop", tr:"dizüstü bilgisayar", cat:"Ofis ve Teknoloji"},
+  {de:"das Diensthandy", tr:"iş telefonu", cat:"Ofis ve Teknoloji"},
+  {de:"der Kopierer", tr:"fotokopi makinesi", cat:"Ofis ve Teknoloji"},
+  {de:"der Schreibtisch", tr:"çalışma masası", cat:"Ofis ve Teknoloji"},
+  {de:"das Großraumbüro", tr:"açık ofis", cat:"Ofis ve Teknoloji"},
+  {de:"das Intranet", tr:"kurum içi ağ (intranet)", cat:"Ofis ve Teknoloji"},
+  {de:"die Homepage / die Webseite", tr:"web sitesi", cat:"Ofis ve Teknoloji"},
+  {de:"das Internet", tr:"internet", cat:"Ofis ve Teknoloji"},
+  {de:"der Parkplatz", tr:"otopark", cat:"Ofis ve Teknoloji"},
+  {de:"der Fahrradständer", tr:"bisiklet park yeri", cat:"Ofis ve Teknoloji"},
+  {de:"der Aktenordner", tr:"dosya klasörü", cat:"Ofis ve Teknoloji"},
+  {de:"das Büromaterial", tr:"ofis malzemesi", cat:"Ofis ve Teknoloji"},
+
+  // Toplantı ve organizasyon
+  {de:"die Tagesordnung", tr:"gündem", cat:"Toplantı ve Organizasyon"},
+  {de:"die Sitzungsleitung", tr:"toplantı yönetimi", cat:"Toplantı ve Organizasyon"},
+  {de:"der Protokollant / die Protokollantin", tr:"tutanak tutan kişi", cat:"Toplantı ve Organizasyon"},
+  {de:"das Handzeichen", tr:"el kaldırma, işaret", cat:"Toplantı ve Organizasyon"},
+  {de:"der Workshop", tr:"çalıştay", cat:"Toplantı ve Organizasyon"},
+  {de:"das Seminar", tr:"seminer", cat:"Toplantı ve Organizasyon"},
+  {de:"der Teilnehmer / die Teilnehmerin", tr:"katılımcı", cat:"Toplantı ve Organizasyon"},
+  {de:"die Teilnahme", tr:"katılım", cat:"Toplantı ve Organizasyon"},
+  {de:"der Austausch", tr:"fikir alışverişi, değişim", cat:"Toplantı ve Organizasyon"},
+  {de:"die Zusammenarbeit", tr:"iş birliği", cat:"Toplantı ve Organizasyon"},
+  {de:"der Ablauf", tr:"süreç, akış", cat:"Toplantı ve Organizasyon"},
+  {de:"die Planung", tr:"planlama", cat:"Toplantı ve Organizasyon"},
+  {de:"die Einführung", tr:"tanıtım, oryantasyon", cat:"Toplantı ve Organizasyon"},
+  {de:"der Einführungstag", tr:"oryantasyon günü", cat:"Toplantı ve Organizasyon"},
+  {de:"die Willkommensmappe", tr:"karşılama/oryantasyon dosyası", cat:"Toplantı ve Organizasyon"},
+  {de:"der Betriebsausflug", tr:"şirket gezisi", cat:"Toplantı ve Organizasyon"},
+  {de:"die Schulung", tr:"eğitim, kurs", cat:"Toplantı ve Organizasyon"},
+  {de:"der Workshop-Teilnehmer", tr:"çalıştay katılımcısı", cat:"Toplantı ve Organizasyon"},
+  {de:"besprechen", tr:"görüşmek, ele almak", cat:"Toplantı ve Organizasyon"},
+  {de:"stattfinden", tr:"gerçekleşmek, yapılmak", cat:"Toplantı ve Organizasyon"},
+  {de:"vorbereiten", tr:"hazırlamak", cat:"Toplantı ve Organizasyon"},
+  {de:"organisieren", tr:"organize etmek", cat:"Toplantı ve Organizasyon"},
+
+  // Sosyal haklar ve özel hayat
+  {de:"der Mutterschutz", tr:"doğum izni (annelik koruması)", cat:"Sosyal Haklar"},
+  {de:"die Schwangerschaft", tr:"hamilelik", cat:"Sosyal Haklar"},
+  {de:"die Geburt", tr:"doğum", cat:"Sosyal Haklar"},
+  {de:"die Kita", tr:"kreş", cat:"Sosyal Haklar"},
+  {de:"das Fitnessstudio", tr:"spor salonu", cat:"Sosyal Haklar"},
+  {de:"das Jobticket", tr:"toplu taşıma abonmanı (işveren destekli)", cat:"Sosyal Haklar"},
+  {de:"der Zuschuss", tr:"katkı payı, destek ödemesi", cat:"Sosyal Haklar"},
+  {de:"die Rente", tr:"emeklilik, emekli maaşı", cat:"Sosyal Haklar"},
+  {de:"die Berufsgenossenschaft", tr:"iş kazası sigorta kurumu", cat:"Sosyal Haklar"},
+  {de:"der Datenschutz", tr:"veri koruma", cat:"Sosyal Haklar"},
+  {de:"die Abmahnung", tr:"uyarı (iş yerinde)", cat:"Sosyal Haklar"},
+
+  // Müşteri hizmetleri ve telefon
+  {de:"der Kundenservice", tr:"müşteri hizmetleri", cat:"Müşteri Hizmetleri"},
+  {de:"der Rückruf", tr:"geri arama", cat:"Müşteri Hizmetleri"},
+  {de:"der Anruf", tr:"telefon araması", cat:"Müşteri Hizmetleri"},
+  {de:"die Durchwahl", tr:"dahili numara", cat:"Müşteri Hizmetleri"},
+  {de:"die Reservierung", tr:"rezervasyon", cat:"Müşteri Hizmetleri"},
+  {de:"die Buchung", tr:"rezervasyon, kayıt", cat:"Müşteri Hizmetleri"},
+  {de:"der Preisnachlass", tr:"fiyat indirimi", cat:"Müşteri Hizmetleri"},
+  {de:"die Entschädigung", tr:"tazminat", cat:"Müşteri Hizmetleri"},
+  {de:"zurückrufen", tr:"geri aramak", cat:"Müşteri Hizmetleri"},
+  {de:"Auf Wiederhören", tr:"(telefonda) hoşça kalın", cat:"Müşteri Hizmetleri"},
+
+  // Genel fiiller
+  {de:"verbessern", ex:"Wir wollen die Zusammenarbeit zwischen den Abteilungen verbessern.", exTr:"Departmanlar arası iş birliğini geliştirmek istiyoruz.", tr:"iyileştirmek", cat:"Genel Fiiller"},
+  {de:"funktionieren", ex:"Der Drucker funktioniert leider nicht mehr.", exTr:"Yazıcı maalesef artık çalışmıyor.", tr:"çalışmak (işlemek)", cat:"Genel Fiiller"},
+  {de:"anmelden", ex:"Bitte melden Sie sich für das Seminar an.", exTr:"Lütfen seminer için kaydolun.", tr:"kaydetmek, bildirmek", cat:"Genel Fiiller"},
+  {de:"sich kümmern (um)", ex:"Ich kümmere mich um die Bestellung.", exTr:"Siparişle ben ilgileniyorum.", tr:"ilgilenmek", cat:"Genel Fiiller"},
+  {de:"sich entscheiden", ex:"Wir haben uns für das günstigere Angebot entschieden.", exTr:"Daha uygun fiyatlı teklifi tercih ettik.", tr:"karar vermek", cat:"Genel Fiiller"},
+  {de:"empfehlen", ex:"Ich kann Ihnen diesen Kollegen sehr empfehlen.", exTr:"Bu meslektaşı size gönül rahatlığıyla tavsiye edebilirim.", tr:"tavsiye etmek", cat:"Genel Fiiller"},
+  {de:"kündigen", ex:"Er hat seinen Vertrag zum Monatsende gekündigt.", exTr:"Sözleşmesini ay sonu itibarıyla feshetti.", tr:"işten çıkarmak/ayrılmak, feshetmek", cat:"Genel Fiiller"},
+  {de:"beachten", ex:"Bitte beachten Sie die neuen Sicherheitsregeln.", exTr:"Lütfen yeni güvenlik kurallarına dikkat edin.", tr:"dikkate almak", cat:"Genel Fiiller"},
+  {de:"benutzen", ex:"Sie dürfen den Firmenwagen auch privat benutzen.", exTr:"Şirket arabasını özel işleriniz için de kullanabilirsiniz.", tr:"kullanmak", cat:"Genel Fiiller"},
+  {de:"vorstellen", ex:"Darf ich Ihnen unseren neuen Kollegen vorstellen?", exTr:"Size yeni meslektaşımızı tanıtabilir miyim?", tr:"tanıtmak, tanıştırmak", cat:"Genel Fiiller"},
+  {de:"klären", ex:"Wir sollten das Missverständnis direkt klären.", exTr:"Bu yanlış anlaşılmayı hemen açıklığa kavuşturmalıyız.", tr:"açıklığa kavuşturmak", cat:"Genel Fiiller"},
+  {de:"streichen", ex:"Der Termin am Freitag wurde leider gestrichen.", exTr:"Cuma günkü randevu maalesef iptal edildi.", tr:"iptal etmek, silmek", cat:"Genel Fiiller"},
+  {de:"gewähren", ex:"Das Unternehmen gewährt einen zusätzlichen Urlaubstag.", exTr:"Şirket ek bir izin günü veriyor.", tr:"vermek, sağlamak (izin/hak)", cat:"Genel Fiiller"},
+  {de:"hinweisen (auf)", ex:"Ich möchte auf einen Fehler im Vertrag hinweisen.", exTr:"Sözleşmedeki bir hataya dikkat çekmek istiyorum.", tr:"dikkat çekmek", cat:"Genel Fiiller"},
+  {de:"begrüßen", ex:"Die Chefin begrüßt die neuen Mitarbeiter persönlich.", exTr:"Patron yeni çalışanları bizzat karşılıyor.", tr:"karşılamak, selamlamak", cat:"Genel Fiiller"},
+  {de:"erklären", ex:"Können Sie mir das noch einmal erklären?", exTr:"Bunu bana bir kez daha açıklayabilir misiniz?", tr:"açıklamak", cat:"Genel Fiiller"},
+  {de:"verwenden", ex:"Für die Präsentation verwenden wir das neue Logo.", exTr:"Sunum için yeni logoyu kullanıyoruz.", tr:"kullanmak", cat:"Genel Fiiller"},
+  {de:"überlegen", ex:"Ich muss mir das noch einmal überlegen.", exTr:"Bunu bir daha düşünmem gerekiyor.", tr:"düşünmek, düşünüp taşınmak", cat:"Genel Fiiller"},
+  {de:"sich verpflichten", ex:"Der Lieferant verpflichtet sich zur pünktlichen Lieferung.", exTr:"Tedarikçi zamanında teslimatı taahhüt ediyor.", tr:"taahhüt etmek", cat:"Genel Fiiller"},
+  {de:"aufnehmen", ex:"Wir nehmen den neuen Punkt in die Tagesordnung auf.", exTr:"Yeni maddeyi gündeme dahil ediyoruz.", tr:"kaydetmek, dahil etmek", cat:"Genel Fiiller"},
+  {de:"leisten", ex:"Das Team hat in diesem Quartal viel geleistet.", exTr:"Ekip bu çeyrekte çok şey başardı.", tr:"başarmak, yerine getirmek", cat:"Genel Fiiller"},
+  {de:"vereinbaren", ex:"Lassen Sie uns einen neuen Termin vereinbaren.", exTr:"Yeni bir randevu kararlaştıralım.", tr:"kararlaştırmak, anlaşmak", cat:"Genel Fiiller"},
+  {de:"umziehen", ex:"Die Abteilung zieht nächste Woche in den Neubau um.", exTr:"Departman gelecek hafta yeni binaya taşınıyor.", tr:"taşınmak", cat:"Genel Fiiller"},
+  {de:"buchen", ex:"Ich habe den Konferenzraum für 14 Uhr gebucht.", exTr:"Toplantı odasını saat 14:00 için ayırttım.", tr:"rezervasyon yapmak", cat:"Genel Fiiller"},
+  {de:"planen", ex:"Wir planen die Marketingkampagne für nächsten Monat.", exTr:"Pazarlama kampanyasını gelecek ay için planlıyoruz.", tr:"planlamak", cat:"Genel Fiiller"},
+  {de:"abholen", ex:"Können Sie das Paket am Empfang abholen?", exTr:"Paketi resepsiyondan alabilir misiniz?", tr:"teslim almak, almaya gitmek", cat:"Genel Fiiller"},
+  {de:"aufnehmen (Kontakt)", ex:"Bitte nehmen Sie Kontakt mit dem Lieferanten auf.", exTr:"Lütfen tedarikçiyle iletişime geçin.", tr:"(iletişime) geçmek", cat:"Genel Fiiller"},
+  {de:"führen", ex:"Sie führt seit zwei Jahren das Vertriebsteam.", exTr:"İki yıldır satış ekibini yönetiyor.", tr:"yönetmek, yürütmek", cat:"Genel Fiiller"},
+  {de:"beschließen", ex:"Die Geschäftsführung hat beschlossen, das Büro zu vergrößern.", exTr:"Yönetim ofisi büyütmeye karar verdi.", tr:"karar vermek, karara bağlamak", cat:"Genel Fiiller"},
+  {de:"beauftragen", ex:"Wir haben eine Reinigungsfirma beauftragt.", exTr:"Bir temizlik şirketiyle anlaştık (görevlendirdik).", tr:"görevlendirmek", cat:"Genel Fiiller"},
+  {de:"verlangen", ex:"Der Kunde verlangt eine schnelle Antwort.", exTr:"Müşteri hızlı bir cevap talep ediyor.", tr:"talep etmek", cat:"Genel Fiiller"},
+  {de:"sich beauftragen lassen", ex:"Er lässt sich von der Abteilungsleitung beauftragen.", exTr:"Departman yönetiminden görev alıyor.", tr:"görev almak", cat:"Genel Fiiller"},
+  {de:"gestalten", ex:"Wir gestalten den Einführungstag für neue Mitarbeiter.", exTr:"Yeni çalışanlar için oryantasyon gününü düzenliyoruz.", tr:"düzenlemek, şekillendirmek", cat:"Genel Fiiller"},
+  {de:"vorschlagen", ex:"Ich schlage vor, das Meeting zu verschieben.", exTr:"Toplantıyı ertelemeyi öneriyorum.", tr:"önermek", cat:"Genel Fiiller"},
+  {de:"genehmigen", ex:"Der Chef hat meinen Urlaubsantrag genehmigt.", exTr:"Patron izin talebimi onayladı.", tr:"onaylamak, izin vermek", cat:"Genel Fiiller"},
+
+  // Genel sıfat ve zarflar
+  {de:"pünktlich", tr:"dakik, zamanında", cat:"Genel Sıfatlar"},
+  {de:"kostenfrei", tr:"ücretsiz", cat:"Genel Sıfatlar"},
+  {de:"kostenpflichtig", tr:"ücretli", cat:"Genel Sıfatlar"},
+  {de:"rechtzeitig", tr:"vaktinde, zamanında", cat:"Genel Sıfatlar"},
+  {de:"schriftlich", tr:"yazılı olarak", cat:"Genel Sıfatlar"},
+  {de:"telefonisch", tr:"telefonla", cat:"Genel Sıfatlar"},
+  {de:"persönlich", tr:"kişisel, şahsen", cat:"Genel Sıfatlar"},
+  {de:"ausschließlich", tr:"yalnızca, sadece", cat:"Genel Sıfatlar"},
+  {de:"selbstverständlich", tr:"tabii ki, doğal olarak", cat:"Genel Sıfatlar"},
+  {de:"vertraut", tr:"aşina, tanıdık", cat:"Genel Sıfatlar"},
+  {de:"verfügbar", tr:"mevcut, kullanılabilir", cat:"Genel Sıfatlar"},
+  {de:"erfolgreich", tr:"başarılı", cat:"Genel Sıfatlar"},
+  {de:"rückläufig", tr:"gerileyen, düşüşte", cat:"Genel Sıfatlar"},
+  {de:"künftig", tr:"gelecekteki, bundan böyle", cat:"Genel Sıfatlar"},
+  {de:"gesetzlich", tr:"yasal", cat:"Genel Sıfatlar"},
+  {de:"insgesamt", tr:"toplamda", cat:"Genel Sıfatlar"},
+  {de:"umgehend", tr:"derhal", cat:"Genel Sıfatlar"},
+  {de:"zufrieden", tr:"memnun", cat:"Genel Sıfatlar"},
+  {de:"unbedingt", tr:"kesinlikle, mutlaka", cat:"Genel Sıfatlar"},
+  {de:"täglich", tr:"her gün", cat:"Genel Sıfatlar"},
+  {de:"mehrmals", tr:"birkaç kez", cat:"Genel Sıfatlar"},
+  {de:"momentan", tr:"şu anda", cat:"Genel Sıfatlar"},
+  {de:"zukünftig", tr:"gelecekte, ileride", cat:"Genel Sıfatlar"},
+  {de:"bisher", tr:"şimdiye kadar", cat:"Genel Sıfatlar"},
+  {de:"jederzeit", tr:"her zaman", cat:"Genel Sıfatlar"},
+  {de:"trotzdem", tr:"yine de", cat:"Genel Sıfatlar"},
+  {de:"obwohl", tr:"-e rağmen (bağlaç)", cat:"Genel Sıfatlar"},
+  {de:"allerdings", tr:"bununla birlikte, ancak", cat:"Genel Sıfatlar"},
+  {de:"aufgrund", tr:"nedeniyle", cat:"Genel Sıfatlar"},
+
+  // Genel isimler
+  {de:"das Interesse", tr:"ilgi, çıkar", cat:"Genel İsimler"},
+  {de:"das Verständnis", tr:"anlayış", cat:"Genel İsimler"},
+  {de:"die Entscheidung", tr:"karar", cat:"Genel İsimler"},
+  {de:"die Verantwortung", tr:"sorumluluk", cat:"Genel İsimler"},
+  {de:"die Möglichkeit", tr:"olanak, imkan", cat:"Genel İsimler"},
+  {de:"das Ziel", tr:"hedef", cat:"Genel İsimler"},
+  {de:"die Idee", tr:"fikir", cat:"Genel İsimler"},
+  {de:"die Erfahrung", tr:"deneyim", cat:"Genel İsimler"},
+  {de:"die Tätigkeit", tr:"faaliyet, görev", cat:"Genel İsimler"},
+  {de:"der Zustand", tr:"durum, hal", cat:"Genel İsimler"},
+  {de:"die Ordnung", tr:"düzen", cat:"Genel İsimler"},
+  {de:"der Aufwand", tr:"çaba, emek", cat:"Genel İsimler"},
+  {de:"die Nutzung", tr:"kullanım", cat:"Genel İsimler"},
+  {de:"die Unterlagen", tr:"belgeler, evraklar", cat:"Genel İsimler"},
+  {de:"die Details", tr:"ayrıntılar", cat:"Genel İsimler"},
+  {de:"die Wahl", tr:"seçim", cat:"Genel İsimler"},
+  {de:"die Chance", tr:"fırsat, şans", cat:"Genel İsimler"},
+  {de:"die Leistung", tr:"performans, hizmet", cat:"Genel İsimler"},
+  {de:"das Kriterium", tr:"kriter, ölçüt", cat:"Genel İsimler"},
+  {de:"das Konzept", tr:"konsept, tasarı", cat:"Genel İsimler"},
+  {de:"das Modell", tr:"model", cat:"Genel İsimler"},
+  {de:"die Maßnahme", tr:"önlem", cat:"Genel İsimler"},
+  {de:"das Recht", tr:"hak", cat:"Genel İsimler"},
+  {de:"der Anspruch", tr:"hak talebi", cat:"Genel İsimler"},
+  {de:"die Änderung", tr:"değişiklik", cat:"Genel İsimler"},
+  {de:"der Anfang", tr:"başlangıç", cat:"Genel İsimler"},
+  {de:"das Ende", tr:"son", cat:"Genel İsimler"},
+  {de:"die Prüfung", tr:"sınav, kontrol", cat:"Genel İsimler"},
+  {de:"die Praxis", tr:"uygulama, pratik", cat:"Genel İsimler"},
+  {de:"der Umweltschutz", tr:"çevre koruma", cat:"Genel İsimler"},
+  {de:"die Kleidung", tr:"kıyafet", cat:"Genel İsimler"},
+  {de:"die Arbeitskleidung", tr:"iş kıyafeti", cat:"Genel İsimler"},
+  {de:"die Reinigung", tr:"temizlik", cat:"Genel İsimler"},
+  {de:"der Umzug", tr:"taşınma", cat:"Genel İsimler"},
+  {de:"die Krankheit", tr:"hastalık", cat:"Genel İsimler"},
+  {de:"das Geschenk", tr:"hediye", cat:"Genel İsimler"},
+  {de:"die Verkaufszahlen", tr:"satış rakamları", cat:"Genel İsimler"},
+  {de:"der Verkauf", tr:"satış", cat:"Genel İsimler"},
+  {de:"der Verkäufer / die Verkäuferin", tr:"satıcı", cat:"Genel İsimler"},
+
+  // Zaman ve tarih ifadeleri
+  {de:"der Montag", tr:"pazartesi", cat:"Zaman ve Randevu"},
+  {de:"der Freitag", tr:"cuma", cat:"Zaman ve Randevu"},
+  {de:"der Samstag", tr:"cumartesi", cat:"Zaman ve Randevu"},
+  {de:"der Sommer", tr:"yaz", cat:"Zaman ve Randevu"},
+  {de:"der Herbst", tr:"sonbahar", cat:"Zaman ve Randevu"},
+  {de:"das Quartal", tr:"çeyrek (3 aylık dönem)", cat:"Zaman ve Randevu"},
+  {de:"der Vormittag", tr:"öğleden önce", cat:"Zaman ve Randevu"},
+  {de:"der Nachmittag", tr:"öğleden sonra", cat:"Zaman ve Randevu"},
+  {de:"der Mittag", tr:"öğle", cat:"Zaman ve Randevu"},
+  {de:"der Moment", tr:"an", cat:"Zaman ve Randevu"},
+  {de:"die Zukunft", tr:"gelecek", cat:"Zaman ve Randevu"},
+  {de:"die Vollzeit", tr:"tam zamanlı", cat:"Sözleşme ve Maaş"},
+  {de:"die Teilzeit", tr:"yarı zamanlı", cat:"Sözleşme ve Maaş"},
+
+  // Genel isimler (2. dalga)
+  {de:"das Thema", tr:"konu", cat:"Genel İsimler"},
+  {de:"die Situation", tr:"durum", cat:"Genel İsimler"},
+  {de:"die Beschreibung", tr:"açıklama, tasvir", cat:"Genel İsimler"},
+  {de:"die Stichpunkte", tr:"ana noktalar, madde başları", cat:"Genel İsimler"},
+  {de:"die Verfügung", tr:"tasarruf, emre amade olma", cat:"Genel İsimler"},
+  {de:"die Leitung", tr:"yönetim, (telefon) hat", cat:"Genel İsimler"},
+  {de:"das Essen", tr:"yemek", cat:"Genel İsimler"},
+  {de:"die Begrüßung", tr:"karşılama, selamlama", cat:"Genel İsimler"},
+  {de:"das Kind / die Kinder", tr:"çocuk", cat:"Genel İsimler"},
+  {de:"das Haus", tr:"ev", cat:"Genel İsimler"},
+  {de:"das Auto", tr:"araba", cat:"Genel İsimler"},
+  {de:"die Farbe", tr:"renk", cat:"Genel İsimler"},
+  {de:"der Gast / die Gäste", tr:"misafir", cat:"Genel İsimler"},
+  {de:"der Karton", tr:"karton kutu", cat:"Genel İsimler"},
+  {de:"die Hilfe", tr:"yardım", cat:"Genel İsimler"},
+  {de:"die Höhe", tr:"yükseklik, tutar", cat:"Genel İsimler"},
+  {de:"der Urlaubstag", tr:"izin günü", cat:"Genel İsimler"},
+  {de:"der Kontakt", tr:"temas, iletişim", cat:"Genel İsimler"},
+  {de:"die Eltern", tr:"ebeveynler", cat:"Genel İsimler"},
+  {de:"der Auftrag", tr:"sipariş, görev", cat:"Genel İsimler"},
+  {de:"der Techniker / die Technikerin", tr:"teknisyen", cat:"Genel İsimler"},
+  {de:"der Raum", tr:"oda, alan", cat:"Genel İsimler"},
+  {de:"das Logo", tr:"logo", cat:"Ofis ve Teknoloji"},
+  {de:"das Telefon", tr:"telefon", cat:"Ofis ve Teknoloji"},
+  {de:"das Ausland", tr:"yurt dışı", cat:"Genel İsimler"},
+  {de:"das Prozent", tr:"yüzde", cat:"Genel İsimler"},
+  {de:"die Freizeit", tr:"boş zaman", cat:"Genel İsimler"},
+  {de:"das Gespräch", tr:"konuşma, görüşme", cat:"Yazışma ve İletişim"},
+  {de:"das Beispiel", tr:"örnek", cat:"Genel İsimler"},
+  {de:"die Familie", tr:"aile", cat:"Genel İsimler"},
+  {de:"die Bahn", tr:"tren, demiryolu", cat:"Genel İsimler"},
+  {de:"das Restaurant", tr:"restoran", cat:"Müşteri Hizmetleri"},
+  {de:"der Preis", tr:"fiyat", cat:"Sipariş ve Şikayet"},
+  {de:"die Seite", tr:"sayfa, taraf", cat:"Genel İsimler"},
+  {de:"die Sprache / die Sprachen", tr:"dil", cat:"Genel İsimler"},
+  {de:"der Tipp / die Tipps", tr:"ipucu, öneri", cat:"Genel İsimler"},
+  {de:"der Arzt / die Ärztin", tr:"doktor", cat:"İzin ve Hastalık"},
+  {de:"die Daten", tr:"veriler", cat:"Ofis ve Teknoloji"},
+  {de:"das Geld", tr:"para", cat:"Genel İsimler"},
+  {de:"das Land", tr:"ülke", cat:"Genel İsimler"},
+  {de:"die Stelle", tr:"pozisyon, yer", cat:"İş Başvurusu"},
+  {de:"die Unterstützung", tr:"destek", cat:"Genel İsimler"},
+  {de:"das Getränk / die Getränke", tr:"içecek", cat:"Müşteri Hizmetleri"},
+  {de:"der Platz", tr:"yer, meydan", cat:"Genel İsimler"},
+  {de:"der Service", tr:"hizmet", cat:"Müşteri Hizmetleri"},
+  {de:"das Geschäft", tr:"dükkan, iş", cat:"Genel İsimler"},
+  {de:"der Partner / die Partnerin", tr:"ortak", cat:"Şirket Yapısı"},
+  {de:"der Arbeitstag", tr:"iş günü", cat:"İzin ve Hastalık"},
+  {de:"der Kaffee", tr:"kahve", cat:"Genel İsimler"},
+  {de:"der Saft", tr:"meyve suyu", cat:"Genel İsimler"},
+  {de:"die Stadt", tr:"şehir", cat:"Genel İsimler"},
+  {de:"das Zimmer", tr:"oda", cat:"Genel İsimler"},
+  {de:"der Spaß", tr:"eğlence, keyif", cat:"Genel İsimler"},
+  {de:"der Bericht", tr:"rapor", cat:"Genel İsimler"},
+  {de:"das Medium / die Medien", tr:"medya", cat:"Genel İsimler"},
+  {de:"die Lebensmittel", tr:"gıda, yiyecek maddeleri", cat:"Genel İsimler"},
+  {de:"der Sohn", tr:"oğul", cat:"Genel İsimler"},
+  {de:"die Werbekampagne", tr:"reklam kampanyası", cat:"Şirket Yapısı"},
+
+  // Genel fiiller (2. dalga)
+  {de:"arbeiten", ex:"Sie arbeitet seit drei Jahren in der Buchhaltung.", exTr:"Üç yıldır muhasebede çalışıyor.", tr:"çalışmak", cat:"Genel Fiiller"},
+  {de:"halten", ex:"Er hält morgen eine kurze Präsentation.", exTr:"Yarın kısa bir sunum yapacak.", tr:"tutmak, (konuşma) yapmak", cat:"Genel Fiiller"},
+  {de:"schicken", ex:"Schicken Sie mir bitte die Unterlagen per E-Mail.", exTr:"Lütfen bana evrakları e-posta ile gönderin.", tr:"göndermek", cat:"Genel Fiiller"},
+  {de:"bieten", ex:"Das Unternehmen bietet flexible Arbeitszeiten.", exTr:"Şirket esnek çalışma saatleri sunuyor.", tr:"sunmak, teklif etmek", cat:"Genel Fiiller"},
+  {de:"rufen", ex:"Rufen Sie mich an, wenn es ein Problem gibt.", exTr:"Bir sorun olursa beni arayın.", tr:"çağırmak, seslenmek", cat:"Genel Fiiller"},
+  {de:"sagen", ex:"Können Sie mir sagen, wo der Meetingraum ist?", exTr:"Toplantı odasının nerede olduğunu söyleyebilir misiniz?", tr:"söylemek", cat:"Genel Fiiller"},
+  {de:"sehen", ex:"Ich sehe das Problem eher bei der Lieferung.", exTr:"Sorunu daha çok teslimatta görüyorum.", tr:"görmek", cat:"Genel Fiiller"},
+  {de:"bleiben", ex:"Bitte bleiben Sie bis zum Ende der Besprechung.", exTr:"Lütfen toplantı bitene kadar kalın.", tr:"kalmak", cat:"Genel Fiiller"},
+  {de:"finden", ex:"Wir müssen schnell eine Lösung finden.", exTr:"Hızlıca bir çözüm bulmalıyız.", tr:"bulmak", cat:"Genel Fiiller"},
+  {de:"lassen", ex:"Lassen Sie uns das Thema morgen besprechen.", exTr:"Bu konuyu yarın konuşalım.", tr:"bırakmak, izin vermek", cat:"Genel Fiiller"},
+  {de:"tragen", ex:"Im Lager müssen Sie Schutzkleidung tragen.", exTr:"Depoda koruyucu giysi giymelisiniz.", tr:"taşımak, giymek", cat:"Genel Fiiller"},
+  {de:"kaufen", ex:"Wir kaufen das Material bei einem neuen Zulieferer.", exTr:"Malzemeyi yeni bir tedarikçiden alıyoruz.", tr:"satın almak", cat:"Genel Fiiller"},
+  {de:"bestellen", ex:"Ich möchte gerne fünf Kartons Papier bestellen.", exTr:"Beş koli kağıt sipariş etmek istiyorum.", tr:"sipariş vermek", cat:"Genel Fiiller"},
+  {de:"fordern", ex:"Der Kunde fordert eine Entschädigung.", exTr:"Müşteri bir tazminat talep ediyor.", tr:"talep etmek", cat:"Genel Fiiller"},
+  {de:"ansprechen", ex:"Sprechen Sie mich gerne bei Fragen an.", exTr:"Sorularınız olursa bana rahatlıkla başvurun.", tr:"hitap etmek, değinmek", cat:"Genel Fiiller"},
+  {de:"besuchen", ex:"Nächste Woche besuchen wir die Filiale in Köln.", exTr:"Gelecek hafta Köln'deki şubeyi ziyaret ediyoruz.", tr:"ziyaret etmek", cat:"Genel Fiiller"},
+  {de:"ändern", ex:"Wir müssen den Termin leider ändern.", exTr:"Randevuyu maalesef değiştirmemiz gerekiyor.", tr:"değiştirmek", cat:"Genel Fiiller"},
+  {de:"setzen", ex:"Setzen Sie den Punkt bitte auf die Tagesordnung.", exTr:"Bu maddeyi lütfen gündeme koyun.", tr:"koymak, oturtmak", cat:"Genel Fiiller"},
+  {de:"fahren", ex:"Ich fahre morgen zu einem Kundentermin.", exTr:"Yarın bir müşteri randevusuna gidiyorum.", tr:"gitmek (araçla), sürmek", cat:"Genel Fiiller"},
+  {de:"helfen", ex:"Können Sie mir bei diesem Formular helfen?", exTr:"Bu formda bana yardım edebilir misiniz?", tr:"yardım etmek", cat:"Genel Fiiller"},
+  {de:"schreiben", ex:"Bitte schreiben Sie mir eine kurze Rückmeldung.", exTr:"Lütfen bana kısa bir geri dönüş yazın.", tr:"yazmak", cat:"Genel Fiiller"},
+  {de:"kennen", ex:"Kennen Sie schon unseren neuen Teamleiter?", exTr:"Yeni takım liderimizi tanıyor musunuz?", tr:"tanımak", cat:"Genel Fiiller"},
+  {de:"kennenlernen", ex:"Am Einführungstag lernen Sie alle Kollegen kennen.", exTr:"Oryantasyon gününde tüm meslektaşlarınızla tanışıyorsunuz.", tr:"tanışmak", cat:"Genel Fiiller"},
+  {de:"lernen", ex:"Sie lernt gerade, das neue Programm zu benutzen.", exTr:"Yeni programı kullanmayı öğreniyor.", tr:"öğrenmek", cat:"Genel Fiiller"},
+  {de:"suchen", ex:"Wir suchen dringend eine Fachkraft für die Produktion.", exTr:"Üretim için acilen kalifiye eleman arıyoruz.", tr:"aramak (bir şeyi)", cat:"Genel Fiiller"},
+  {de:"denken", ex:"Was denken Sie über den Vorschlag?", exTr:"Bu öneri hakkında ne düşünüyorsunuz?", tr:"düşünmek", cat:"Genel Fiiller"},
+  {de:"dauern", ex:"Die Besprechung dauert etwa eine Stunde.", exTr:"Toplantı yaklaşık bir saat sürüyor.", tr:"sürmek (zaman)", cat:"Genel Fiiller"},
+  {de:"erfahren", ex:"Ich habe erst gestern von der Änderung erfahren.", exTr:"Değişikliği ancak dün öğrendim.", tr:"öğrenmek, deneyimlemek", cat:"Genel Fiiller"},
+  {de:"schließen", ex:"Das Büro schließt am Freitag früher.", exTr:"Ofis cuma günü erken kapanıyor.", tr:"kapatmak", cat:"Genel Fiiller"},
+  {de:"beginnen", ex:"Die Schulung beginnt um neun Uhr.", exTr:"Eğitim saat dokuzda başlıyor.", tr:"başlamak", cat:"Genel Fiiller"},
+  {de:"verlieren", ex:"Wir dürfen keine Zeit verlieren.", exTr:"Zaman kaybetmemeliyiz.", tr:"kaybetmek", cat:"Genel Fiiller"},
+  {de:"sparen", ex:"Mit der neuen Maschine sparen wir viel Zeit.", exTr:"Yeni makineyle çok zaman kazanıyoruz.", tr:"tasarruf etmek", cat:"Genel Fiiller"},
+  {de:"teilen", ex:"Bitte teilen Sie die Informationen mit dem Team.", exTr:"Lütfen bilgileri ekiple paylaşın.", tr:"paylaşmak", cat:"Genel Fiiller"},
+  {de:"buchstabieren", ex:"Können Sie Ihren Namen bitte buchstabieren?", exTr:"Adınızı harf harf söyleyebilir misiniz?", tr:"harf harf söylemek", cat:"Genel Fiiller"},
+  {de:"handeln (es handelt sich um)", ex:"Es handelt sich um eine dringende Reklamation.", exTr:"Söz konusu olan acil bir şikayet.", tr:"söz konusu olmak", cat:"Genel Fiiller"},
+  {de:"verlassen", ex:"Er hat die Firma nach fünf Jahren verlassen.", exTr:"Beş yıl sonra şirketten ayrıldı.", tr:"terk etmek, ayrılmak", cat:"Genel Fiiller"},
+  {de:"erlauben", ex:"Erlauben Sie mir eine kurze Frage?", exTr:"Kısa bir soru sorabilir miyim?", tr:"izin vermek", cat:"Genel Fiiller"},
+
+  // Genel sıfat/zarf (2. dalga)
+  {de:"gemeinsam", tr:"ortaklaşa, birlikte", cat:"Genel Sıfatlar"},
+  {de:"sicher", tr:"emin, güvenli", cat:"Genel Sıfatlar"},
+  {de:"fertig", tr:"hazır, bitmiş", cat:"Genel Sıfatlar"},
+  {de:"frei", tr:"boş, serbest", cat:"Genel Sıfatlar"},
+  {de:"fest", tr:"sabit, kesin", cat:"Genel Sıfatlar"},
+  {de:"bereit", tr:"hazır", cat:"Genel Sıfatlar"},
+  {de:"klar", tr:"açık, net", cat:"Genel Sıfatlar"},
+  {de:"extra", tr:"ekstra, özellikle", cat:"Genel Sıfatlar"},
+  {de:"privat", tr:"özel", cat:"Genel Sıfatlar"},
+  {de:"ständig", tr:"sürekli", cat:"Genel Sıfatlar"},
+  {de:"stark", tr:"güçlü", cat:"Genel Sıfatlar"},
+  {de:"online", tr:"çevrimiçi", cat:"Genel Sıfatlar"},
+  {de:"tätig", tr:"çalışan, faal", cat:"Genel Sıfatlar"},
+  {de:"kaputt", tr:"bozuk", cat:"Genel Sıfatlar"},
+  {de:"besonders", tr:"özellikle", cat:"Genel Sıfatlar"},
+  {de:"einverstanden", tr:"hemfikir, aynı fikirde", cat:"Genel Sıfatlar"},
+  {de:"schlecht", tr:"kötü", cat:"Genel Sıfatlar"},
+  {de:"weit", tr:"uzak, geniş", cat:"Genel Sıfatlar"},
+
+  // Sınav kelimeleri (telc B2 Prüfungstraining kitabından)
+  {de:"der Antwortbogen", tr:"cevap kağıdı", cat:"Sınav Kelimeleri"},
+  {de:"markieren", tr:"işaretlemek", cat:"Sınav Kelimeleri"},
+  {de:"der Prüfer / die Prüferin", tr:"sınav görevlisi", cat:"Sınav Kelimeleri"},
+  {de:"die Bewertung", tr:"değerlendirme", cat:"Sınav Kelimeleri"},
+  {de:"das Kriterium / die Kriterien", tr:"kriter, ölçüt", cat:"Sınav Kelimeleri"},
+  {de:"der Subtest", tr:"alt test, bölüm sınavı", cat:"Sınav Kelimeleri"},
+  {de:"das Niveau", tr:"seviye, düzey", cat:"Sınav Kelimeleri"},
+  {de:"die Sprachbausteine", tr:"dil yapı taşları (gramer/kelime bölümü)", cat:"Sınav Kelimeleri"},
+  {de:"angemessen", tr:"uygun, yerinde", cat:"Sınav Kelimeleri"},
+  {de:"die Formulierung", tr:"ifade biçimi, söyleyiş", cat:"Sınav Kelimeleri"},
+  {de:"adäquat", tr:"yeterli, uygun", cat:"Sınav Kelimeleri"},
+  {de:"die Aussprache", tr:"telaffuz", cat:"Sınav Kelimeleri"},
+  {de:"der Wortschatz", tr:"kelime dağarcığı", cat:"Sınav Kelimeleri"},
+  {de:"die Intonation", tr:"tonlama, vurgu", cat:"Sınav Kelimeleri"},
+  {de:"die Formalität", tr:"resmiyet", cat:"Sınav Kelimeleri"},
+  {de:"der Adressat / die Adressatin", tr:"alıcı (mektup/mesaj)", cat:"Sınav Kelimeleri"},
+  {de:"die Struktur", tr:"yapı", cat:"Sınav Kelimeleri"},
+  {de:"die Richtigkeit", tr:"doğruluk", cat:"Sınav Kelimeleri"},
+  {de:"die Übung", tr:"alıştırma, egzersiz", cat:"Sınav Kelimeleri"},
+  {de:"der Übungstest", tr:"deneme sınavı", cat:"Sınav Kelimeleri"},
+  {de:"die Prüfungsaufgabe", tr:"sınav sorusu/görevi", cat:"Sınav Kelimeleri"},
+  {de:"die Lücke", tr:"boşluk (doldurma)", cat:"Sınav Kelimeleri"},
+  {de:"die Notiz / die Notizen", tr:"not", cat:"Sınav Kelimeleri"},
+  {de:"notieren", tr:"not almak", cat:"Sınav Kelimeleri"},
+  {de:"die Gegenfrage", tr:"karşı soru", cat:"Sınav Kelimeleri"},
+  {de:"die Rückfrage", tr:"ek soru, açıklayıcı soru", cat:"Sınav Kelimeleri"},
+  {de:"der Ausdruck", tr:"ifade, deyim", cat:"Sınav Kelimeleri"},
+  {de:"bewerten", tr:"değerlendirmek", cat:"Sınav Kelimeleri"},
+  {de:"detailliert", tr:"detaylı, ayrıntılı", cat:"Sınav Kelimeleri"},
+  {de:"ausreichend", tr:"yeterli", cat:"Sınav Kelimeleri"},
+
+  // Genel isimler (3. dalga)
+  {de:"der Artikel", tr:"makale", cat:"Genel İsimler"},
+  {de:"der Text", tr:"metin", cat:"Genel İsimler"},
+  {de:"das Wort / die Wörter", tr:"kelime", cat:"Genel İsimler"},
+  {de:"die Meinung", tr:"görüş, fikir", cat:"Genel İsimler"},
+  {de:"die Begründung", tr:"gerekçe", cat:"Genel İsimler"},
+  {de:"die Höflichkeit", tr:"nezaket, kibarlık", cat:"Genel İsimler"},
+  {de:"die Kommunikation", tr:"iletişim", cat:"Genel İsimler"},
+  {de:"die Karriere", tr:"kariyer", cat:"Genel İsimler"},
+  {de:"die Branche", tr:"sektör", cat:"Genel İsimler"},
+  {de:"die Gelegenheit", tr:"fırsat", cat:"Genel İsimler"},
+  {de:"die Motivation", tr:"motivasyon", cat:"Genel İsimler"},
+  {de:"der Antrag", tr:"başvuru, talep", cat:"Genel İsimler"},
+  {de:"die Zielgruppe", tr:"hedef kitle", cat:"Genel İsimler"},
+  {de:"der Schlüssel", tr:"anahtar", cat:"Genel İsimler"},
+  {de:"das Handtuch", tr:"havlu", cat:"Genel İsimler"},
+  {de:"der Kühlschrank", tr:"buzdolabı", cat:"Genel İsimler"},
+  {de:"die Torte", tr:"pasta", cat:"Genel İsimler"},
+  {de:"die Eingangstür", tr:"giriş kapısı", cat:"Genel İsimler"},
+  {de:"die Lagerhalle", tr:"depo binası", cat:"Genel İsimler"},
+  {de:"die Betriebsfeier", tr:"şirket partisi", cat:"Genel İsimler"},
+  {de:"die Küchenhilfe", tr:"mutfak yardımcısı", cat:"Genel İsimler"},
+  {de:"die Berufsschule", tr:"meslek okulu", cat:"İş Başvurusu"},
+  {de:"der Neubau", tr:"yeni bina", cat:"Genel İsimler"},
+  {de:"die Mittagspause", tr:"öğle molası", cat:"İzin ve Hastalık"},
+  {de:"die Videokonferenz", tr:"video konferans", cat:"Ofis ve Teknoloji"},
+  {de:"die Dienstleistung", tr:"hizmet", cat:"Müşteri Hizmetleri"},
+  {de:"das Produkt", tr:"ürün", cat:"Sipariş ve Şikayet"},
+  {de:"das Gericht / die Gerichte", tr:"yemek (menüdeki)", cat:"Müşteri Hizmetleri"},
+  {de:"die Speise / die Speisen", tr:"yemek", cat:"Müşteri Hizmetleri"},
+  {de:"der Wein", tr:"şarap", cat:"Genel İsimler"},
+  {de:"die Berufskleidung", tr:"meslek kıyafeti", cat:"İş Sağlığı ve Güvenliği"},
+  {de:"die Hebebühne", tr:"kaldırma platformu", cat:"İş Sağlığı ve Güvenliği"},
+
+  // Genel fiiller (3. dalga)
+  {de:"erläutern", ex:"Können Sie den Ablauf kurz erläutern?", exTr:"Süreci kısaca açıklayabilir misiniz?", tr:"açıklamak, izah etmek", cat:"Genel Fiiller"},
+  {de:"ablehnen", ex:"Der Kunde hat das Angebot leider abgelehnt.", exTr:"Müşteri teklifi maalesef reddetti.", tr:"reddetmek", cat:"Genel Fiiller"},
+  {de:"wechseln", ex:"Sie möchte die Abteilung wechseln.", exTr:"Departman değiştirmek istiyor.", tr:"değiştirmek, değişmek", cat:"Genel Fiiller"},
+  {de:"äußern", ex:"Bitte äußern Sie Ihre Bedenken direkt.", exTr:"Lütfen endişelerinizi doğrudan dile getirin.", tr:"dile getirmek, ifade etmek", cat:"Genel Fiiller"},
+  {de:"beantragen", ex:"Ich möchte drei Urlaubstage beantragen.", exTr:"Üç izin günü talep etmek istiyorum.", tr:"başvurmak, talep etmek", cat:"Genel Fiiller"},
+  {de:"erfüllen", ex:"Die Lieferung erfüllt leider nicht die Qualitätskriterien.", exTr:"Teslimat maalesef kalite kriterlerini karşılamıyor.", tr:"yerine getirmek, karşılamak", cat:"Genel Fiiller"},
+  {de:"verkaufen", ex:"Wir verkaufen unsere Produkte auch im Ausland.", exTr:"Ürünlerimizi yurt dışında da satıyoruz.", tr:"satmak", cat:"Genel Fiiller"},
+  {de:"enthalten", ex:"Der Vertrag enthält eine Kündigungsfrist von vier Wochen.", exTr:"Sözleşme dört haftalık bir fesih süresi içeriyor.", tr:"içermek", cat:"Genel Fiiller"},
+  {de:"einsetzen", ex:"Wir setzen zwei neue Techniker in der Werkstatt ein.", exTr:"Atölyede iki yeni teknisyen görevlendiriyoruz.", tr:"kullanmak, görevlendirmek", cat:"Genel Fiiller"},
+  {de:"einhalten", ex:"Bitte halten Sie die Lieferfrist unbedingt ein.", exTr:"Lütfen teslimat süresine mutlaka uyun.", tr:"(süreye/kurala) uymak", cat:"Genel Fiiller"},
+  {de:"durchführen", ex:"Die Schulung wird online durchgeführt.", exTr:"Eğitim çevrimiçi olarak gerçekleştirilecek.", tr:"gerçekleştirmek, yürütmek", cat:"Genel Fiiller"},
+  {de:"leiten", ex:"Wer leitet heute die Besprechung?", exTr:"Bugün toplantıyı kim yönetiyor?", tr:"yönetmek", cat:"Genel Fiiller"},
+  {de:"wählen", ex:"Bitte wählen Sie die passende Antwort aus.", exTr:"Lütfen uygun cevabı seçin.", tr:"seçmek", cat:"Genel Fiiller"},
+
+  // Genel sıfat/zarf (3. dalga)
+  {de:"selbstständig", tr:"bağımsız", cat:"Genel Sıfatlar"},
+  {de:"sinnvoll", tr:"anlamlı, mantıklı", cat:"Genel Sıfatlar"},
+  {de:"deutlich", tr:"belirgin, açık", cat:"Genel Sıfatlar"},
+  {de:"aufmerksam", tr:"dikkatli", cat:"Genel Sıfatlar"},
+  {de:"informell", tr:"gayri resmi", cat:"Genel Sıfatlar"},
+  {de:"förmlich", tr:"resmi, teklifli", cat:"Genel Sıfatlar"},
+  {de:"unhöflich", tr:"kaba, nezaketsiz", cat:"Genel Sıfatlar"},
+
+  // Genel isimler (4. dalga — son ek)
+  {de:"die Person", tr:"kişi", cat:"Genel İsimler"},
+  {de:"das Mittel", tr:"araç, yöntem", cat:"Genel İsimler"},
+  {de:"die Gestaltung", tr:"tasarım, düzenleme", cat:"Genel İsimler"},
+  {de:"die Erläuterung", tr:"açıklama", cat:"Genel İsimler"},
+  {de:"die Besonderheit", tr:"özellik", cat:"Genel İsimler"},
+  {de:"die Nachfrage", tr:"talep, ek soru", cat:"Genel İsimler"},
+  {de:"die Aussage", tr:"ifade, beyan", cat:"Genel İsimler"},
+  {de:"der Beitrag", tr:"katkı", cat:"Genel İsimler"},
+  {de:"die Strategie", tr:"strateji", cat:"Genel İsimler"},
+  {de:"das Element", tr:"unsur, öğe", cat:"Genel İsimler"},
+  {de:"das Umfeld", tr:"çevre, ortam", cat:"Genel İsimler"},
+  {de:"die Anzahl", tr:"sayı, miktar", cat:"Genel İsimler"},
+  {de:"der/die Angestellte", tr:"çalışan, memur", cat:"İş Yeri"},
+  {de:"der Name", tr:"isim, ad", cat:"Genel İsimler"},
+  {de:"der Euro", tr:"euro", cat:"Genel İsimler"},
+  {de:"der Fall", tr:"durum, vaka", cat:"Genel İsimler"},
+  {de:"die Nummer", tr:"numara", cat:"Genel İsimler"},
+];
+
+const state = {
+  mode: 'cards',
+  activeCat: 'Hepsi',
+  reviewOnly: false,
+  direction: 'tr-de', // 'tr-de' = Türkçe soru, Almanca seçenekler; 'de-tr' = tersi
+  order: [],
+  cardIdx: 0,
+  flipped: false,
+  known: new Set(),
+  review: new Set(),
+  pool: [],
+  quizIdx: 0,
+  quizAnswers: {},
+};
+
+const LS_KEY = 'dtb-vocab-progress-v3';
+const SESSION_KEY = 'dtb-vocab-session-v1';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      state.known = new Set(p.known || []);
+      state.review = new Set(p.review || []);
+    }
+  } catch (e) { /* ignore */ }
+}
+function saveProgress() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify({
+      known: Array.from(state.known),
+      review: Array.from(state.review),
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+// Session = "where I am right now": mode, direction, category, filter,
+// and exact position/order in the current deck — so closing and reopening
+// the app resumes exactly where you left off instead of restarting.
+function saveSession() {
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify({
+      mode: state.mode,
+      direction: state.direction,
+      activeCat: state.activeCat,
+      reviewOnly: state.reviewOnly,
+      order: state.order,
+      cardIdx: state.cardIdx,
+      flipped: state.flipped,
+      pool: state.pool,
+      quizIdx: state.quizIdx,
+      quizAnswers: state.quizAnswers,
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+function loadSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    if (!s || !Array.isArray(s.order) || !Array.isArray(s.pool)) return false;
+    state.mode = s.mode === 'quiz' ? 'quiz' : 'cards';
+    state.direction = s.direction === 'de-tr' ? 'de-tr' : 'tr-de';
+    state.activeCat = typeof s.activeCat === 'string' ? s.activeCat : 'Hepsi';
+    state.reviewOnly = !!s.reviewOnly;
+    // Guard against a saved deck that no longer matches the current word list
+    // (e.g. VOCAB changed since the session was saved).
+    const orderOk = s.order.every(i => Number.isInteger(i) && i >= 0 && i < VOCAB.length);
+    const poolOk = s.pool.every(i => Number.isInteger(i) && i >= 0 && i < VOCAB.length);
+    if (!orderOk || !poolOk) return false;
+    state.order = s.order;
+    state.cardIdx = Math.min(s.cardIdx || 0, Math.max(0, state.order.length - 1));
+    state.flipped = !!s.flipped;
+    state.pool = s.pool;
+    state.quizIdx = Math.min(s.quizIdx || 0, Math.max(0, state.pool.length - 1));
+    state.quizAnswers = s.quizAnswers && typeof s.quizAnswers === 'object' ? s.quizAnswers : {};
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function resetSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch (e) { /* ignore */ }
+  resetCards();
+  resetQuiz();
+  render();
+}
+
+const categories = ['Hepsi', ...Array.from(new Set(VOCAB.map(v => v.cat)))];
+
+function currentList() {
+  let list;
+  if (state.activeCat === 'Hepsi') list = VOCAB.map((_, i) => i);
+  else list = VOCAB.map((v, i) => v.cat === state.activeCat ? i : -1).filter(i => i >= 0);
+  if (state.reviewOnly) list = list.filter(i => state.review.has(i));
+  return list;
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderDirBar() {
+  const bar = document.getElementById('dirBar');
+  const opts = [
+    { key: 'tr-de', label: 'Türkçe → Almanca' },
+    { key: 'de-tr', label: 'Almanca → Türkçe' },
+  ];
+  bar.innerHTML = '';
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (o.key === state.direction ? ' active' : '');
+    b.textContent = o.label;
+    b.onclick = () => {
+      state.direction = o.key;
+      resetCards();
+      resetQuiz();
+      render();
+    };
+    bar.appendChild(b);
+  });
+}
+
+function renderCatBar() {
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = '';
+  categories.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (c === state.activeCat ? ' active' : '');
+    b.textContent = c;
+    b.onclick = () => {
+      state.activeCat = c;
+      resetCards();
+      resetQuiz();
+      render();
+    };
+    bar.appendChild(b);
+  });
+}
+
+function renderReviewBar() {
+  const bar = document.getElementById('reviewBar');
+  bar.innerHTML = '';
+  const b = document.createElement('button');
+  const count = state.review.size;
+  b.className = 'pill' + (state.reviewOnly ? ' active' : '');
+  b.textContent = `🔁 Sadece Bilmediklerim (${count})`;
+  b.disabled = count === 0 && !state.reviewOnly;
+  b.onclick = () => {
+    state.reviewOnly = !state.reviewOnly;
+    resetCards();
+    resetQuiz();
+    render();
+  };
+  bar.appendChild(b);
+}
+
+// ---------- Flashcards ----------
+function resetCards() {
+  state.order = shuffle(currentList());
+  state.cardIdx = 0;
+  state.flipped = false;
+}
+
+function renderCards() {
+  const list = state.order;
+  const total = list.length;
+  document.getElementById('cardTotal').textContent = total;
+  if (total === 0) {
+    document.getElementById('frontWord').textContent = 'Bu kategoride kelime yok';
+    document.getElementById('backWord').textContent = '';
+    document.getElementById('frontExample').innerHTML = '';
+    document.getElementById('backExample').innerHTML = '';
+    return;
+  }
+  const isTrToDe = state.direction === 'tr-de';
+  const item = VOCAB[list[state.cardIdx]];
+  document.getElementById('cardIndex').textContent = state.cardIdx + 1;
+  document.getElementById('frontTag').textContent = isTrToDe ? 'TÜRKÇE' : 'ALMANCA';
+  document.getElementById('backTag').textContent = isTrToDe ? 'ALMANCA' : 'TÜRKÇE';
+  document.getElementById('frontWord').textContent = isTrToDe ? item.tr : item.de;
+  document.getElementById('backWord').textContent = isTrToDe ? item.de : item.tr;
+  // German example goes with the German-language face; Turkish translation
+  // of that example goes with the Turkish-language face — never both on one face.
+  const deExHtml = item.ex ? `„${item.ex}"` : '';
+  const trExHtml = item.exTr ? item.exTr : '';
+  document.getElementById('frontExample').innerHTML = isTrToDe ? trExHtml : deExHtml;
+  document.getElementById('backExample').innerHTML = isTrToDe ? deExHtml : trExHtml;
+  document.getElementById('knownCount').textContent = state.known.size;
+  document.getElementById('reviewCount').textContent = state.review.size;
+  document.getElementById('indexCard').classList.toggle('flipped', state.flipped);
+  saveSession();
+}
+
+function nextCard() {
+  if (state.order.length === 0) return;
+  state.cardIdx = (state.cardIdx + 1) % state.order.length;
+  state.flipped = false;
+  renderCards();
+}
+function prevCard() {
+  if (state.order.length === 0) return;
+  state.cardIdx = (state.cardIdx - 1 + state.order.length) % state.order.length;
+  state.flipped = false;
+  renderCards();
+}
+function markKnown(good) {
+  if (state.order.length === 0) return;
+  const vocabIdx = state.order[state.cardIdx];
+  if (good) { state.known.add(vocabIdx); state.review.delete(vocabIdx); }
+  else { state.review.add(vocabIdx); state.known.delete(vocabIdx); }
+  saveProgress();
+  if (state.reviewOnly && good) {
+    // Word just learned — drop it from the live review-only session immediately.
+    state.order.splice(state.cardIdx, 1);
+    if (state.cardIdx >= state.order.length) state.cardIdx = 0;
+    state.flipped = false;
+    renderReviewBar();
+    renderCards();
+  } else {
+    nextCard();
+  }
+}
+
+function resetQuiz() {
+  state.pool = shuffle(currentList());
+  state.quizIdx = 0;
+  state.quizAnswers = {}; // poolIndex -> { chosenIdx, correct, options }
+}
+
+function renderQuiz() {
+  const total = state.pool.length;
+  document.getElementById('qTotal').textContent = total;
+  const answeredCount = Object.keys(state.quizAnswers).length;
+  const correctCount = Object.values(state.quizAnswers).filter(a => a.correct).length;
+  document.getElementById('scoreCorrect').textContent = correctCount;
+  document.getElementById('scoreWrong').textContent = answeredCount - correctCount;
+
+  const area = document.getElementById('quizArea');
+
+  if (total === 0) {
+    area.innerHTML = '<div class="quiz-summary">Bu kategoride kelime yok.</div>';
+    return;
+  }
+
+  document.getElementById('qIndex').textContent = state.quizIdx + 1;
+  const correctVocabIdx = state.pool[state.quizIdx];
+  const item = VOCAB[correctVocabIdx];
+
+  const isTrToDe = state.direction === 'tr-de';
+  const questionText = isTrToDe ? item.tr : item.de;
+  const questionTag = isTrToDe ? 'Bu kelimenin Almancası nedir?' : 'Bu kelimenin Türkçesi nedir?';
+  const optionLabel = (vocabItem) => isTrToDe ? vocabItem.de : vocabItem.tr;
+  const answerText = optionLabel(item);
+
+  const existing = state.quizAnswers[state.quizIdx];
+
+  // Build (or reuse) option set for this question
+  if (!existing || !existing.options) {
+    const otherIndices = currentList().filter(i => i !== correctVocabIdx);
+    const distractors = shuffle(otherIndices).slice(0, 3);
+    const opts = shuffle([correctVocabIdx, ...distractors]);
+    if (existing) existing.options = opts;
+    else state.quizAnswers[state.quizIdx] = { options: opts };
+  }
+  const options = state.quizAnswers[state.quizIdx].options;
+  const answered = !!(existing && existing.chosenIdx !== undefined);
+
+  area.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-tag">${questionTag}</div>
+      <div class="quiz-word">${questionText}</div>
+      <div class="options">
+        ${options.map(oi => `<button class="opt" data-i="${oi}">${optionLabel(VOCAB[oi])}</button>`).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="card-nav" id="knowRow" style="display:none;">
+      <button class="btn btn-bad" id="qDontKnow">Bilmiyorum</button>
+      <button class="btn btn-good" id="qKnow">Biliyorum</button>
+    </div>
+    <div class="card-nav">
+      <button class="btn btn-ghost" id="qPrev" ${state.quizIdx === 0 ? 'disabled' : ''}>← Önceki</button>
+      <button class="btn btn-ghost" id="qNext" ${state.quizIdx === total - 1 ? 'disabled' : ''}>Sonraki →</button>
+    </div>
+    ${state.quizIdx === total - 1 ? '<div class="center" style="margin-top:8px;"><button class="btn btn-primary" id="qFinish">Sonuçları Gör</button></div>' : ''}
+  `;
+
+  const feedback = document.getElementById('feedback');
+  const knowRow = document.getElementById('knowRow');
+  const optButtons = area.querySelectorAll('.opt');
+
+  function showAnswered(chosenIdx) {
+    optButtons.forEach(b => b.setAttribute('disabled', 'true'));
+    const chosenBtn = area.querySelector(`.opt[data-i="${chosenIdx}"]`);
+    const isCorrect = chosenIdx === correctVocabIdx;
+    const exLine = item.ex
+      ? `<div class="example" style="margin-top:8px;">„${item.ex}"${item.exTr ? `<div class="example-tr">${item.exTr}</div>` : ''}</div>`
+      : '';
+    if (isCorrect) {
+      if (chosenBtn) chosenBtn.classList.add('correct');
+      feedback.className = 'feedback correct';
+      feedback.innerHTML = `Doğru! <span class="correct-answer">${answerText}</span>${exLine}`;
+    } else {
+      if (chosenBtn) chosenBtn.classList.add('wrong');
+      optButtons.forEach(b => {
+        if (parseInt(b.dataset.i, 10) === correctVocabIdx) b.classList.add('correct');
+      });
+      feedback.className = 'feedback wrong';
+      feedback.innerHTML = `Yanlış. Doğru cevap: <span class="correct-answer">${answerText}</span>${exLine}`;
+    }
+    knowRow.style.display = 'flex';
+    // reflect any prior know/don't-know self-assessment
+    if (state.known.has(correctVocabIdx)) document.getElementById('qKnow').classList.add('active-mark');
+    if (state.review.has(correctVocabIdx)) document.getElementById('qDontKnow').classList.add('active-mark');
+  }
+
+  if (answered) {
+    showAnswered(existing.chosenIdx);
+  } else {
+    optButtons.forEach(btn => {
+      btn.onclick = () => {
+        const chosenIdx = parseInt(btn.dataset.i, 10);
+        state.quizAnswers[state.quizIdx].chosenIdx = chosenIdx;
+        state.quizAnswers[state.quizIdx].correct = (chosenIdx === correctVocabIdx);
+        document.getElementById('scoreCorrect').textContent =
+          Object.values(state.quizAnswers).filter(a => a.correct).length;
+        document.getElementById('scoreWrong').textContent =
+          Object.values(state.quizAnswers).filter(a => a.chosenIdx !== undefined && !a.correct).length;
+        showAnswered(chosenIdx);
+      };
+    });
+  }
+
+  document.getElementById('qKnow').onclick = () => {
+    state.known.add(correctVocabIdx);
+    state.review.delete(correctVocabIdx);
+    saveProgress();
+    renderReviewBar();
+    if (state.reviewOnly) {
+      // Word just learned — drop it from the live review-only session immediately.
+      state.pool.splice(state.quizIdx, 1);
+      state.quizAnswers = {}; // indices shift on splice; simplest to clear stale answer cache
+      if (state.quizIdx >= state.pool.length) state.quizIdx = Math.max(0, state.pool.length - 1);
+      renderQuiz();
+    } else {
+      goToNextOrFinish();
+    }
+  };
+  document.getElementById('qDontKnow').onclick = () => {
+    state.review.add(correctVocabIdx);
+    state.known.delete(correctVocabIdx);
+    saveProgress();
+    renderReviewBar();
+    goToNextOrFinish();
+  };
+  document.getElementById('qPrev').onclick = () => {
+    if (state.quizIdx > 0) { state.quizIdx--; renderQuiz(); }
+  };
+  document.getElementById('qNext').onclick = () => {
+    if (state.quizIdx < total - 1) { state.quizIdx++; renderQuiz(); }
+  };
+  const finishBtn = document.getElementById('qFinish');
+  if (finishBtn) finishBtn.onclick = () => showQuizSummary();
+
+  function goToNextOrFinish() {
+    if (state.quizIdx < total - 1) { state.quizIdx++; renderQuiz(); }
+    else { showQuizSummary(); }
+  }
+  saveSession();
+}
+
+function showQuizSummary() {
+  const total = state.pool.length;
+  const correctCount = Object.values(state.quizAnswers).filter(a => a.correct).length;
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="quiz-summary">
+      <div class="eyebrow" style="color:#6b7d6f;">SONUÇ</div>
+      <div class="score">${correctCount} / ${total}</div>
+      <div style="margin-bottom:20px; color:#4c5a4c;">doğru cevap · Bilmiyorum işaretlenen: ${state.review.size}</div>
+      <button class="btn btn-primary" id="restartBtn">Tekrar Başla</button>
+    </div>`;
+  document.getElementById('restartBtn').onclick = () => { resetQuiz(); renderQuiz(); };
+}
+
+function render() {
+  renderReviewBar();
+  document.getElementById('cardsView').style.display = state.mode === 'cards' ? '' : 'none';
+  document.getElementById('quizView').style.display = state.mode === 'quiz' ? '' : 'none';
+  if (state.mode === 'cards') renderCards();
+  else renderQuiz();
+  saveSession();
+}
+
+// Init
+loadProgress();
+const resumed = loadSession();
+if (!resumed) { resetCards(); resetQuiz(); }
+renderDirBar();
+renderCatBar();
+render();
+
+// Reflect restored mode on the tab UI
+document.querySelectorAll('.tab').forEach(t => {
+  t.classList.toggle('active', t.dataset.mode === state.mode);
+});
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    state.mode = tab.dataset.mode;
+    render();
+  };
+});
+
+document.getElementById('indexCard').onclick = () => {
+  state.flipped = !state.flipped;
+  renderCards();
+};
+document.getElementById('btnNext').onclick = nextCard;
+document.getElementById('btnPrev').onclick = prevCard;
+document.getElementById('btnShuffle').onclick = () => { resetCards(); renderCards(); };
+document.getElementById('btnKnow').onclick = () => markKnown(true);
+document.getElementById('btnDontKnow').onclick = () => markKnown(false);
+document.getElementById('btnResetSession').onclick = () => {
+  if (confirm('Baştan başlamak istediğine emin misin? Öğrenme ilerlemen (biliyorum/bilmiyorum işaretlerin) silinmez, sadece kaldığın yer sıfırlanır.')) {
+    resetSession();
+  }
+};
+
+// Service worker: GitHub Pages gibi gerçek bir sunucudan açıldığında
+// sayfayı önbelleğe alıp internetsiz de çalışmasını sağlar.
+// claude.ai içindeki artifact önizlemesinde sw.js bulunmadığı için
+// bu kayıt sessizce başarısız olur; sayfanın geri kalanını etkilemez.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* ignore */ });
+  });
+}
+</script>
+</body>
+</html>
